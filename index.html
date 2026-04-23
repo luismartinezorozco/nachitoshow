@@ -63,12 +63,81 @@
 
         .shadow-black { box-shadow: 4px 4px 0px 0px #111111; }
         .btn-comic:hover.shadow-black { box-shadow: 2px 2px 0px 0px #111111; }
+
+        /* Animaciones para los Globos */
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-60vh) rotate(5deg); }
+            100% { transform: translateY(-120vh) rotate(-5deg); }
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-8deg); }
+            50% { transform: rotate(8deg); }
+        }
+        .animate-wiggle {
+            animation: wiggle 3s ease-in-out infinite;
+        }
+        .animate-wiggle-reverse {
+            animation: wiggle 3s ease-in-out infinite reverse;
+        }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
+<body class="min-h-screen flex items-center justify-center p-4 relative">
 
-    <!-- Contenedor Principal de la Tarjeta -->
-    <main class="w-full max-w-md bg-white rounded-[2.5rem] p-6 sm:p-8 border-4 border-brandBlue shadow-[8px_8px_0px_0px_#0B358F] relative overflow-hidden">
+    <!-- Globos Flotantes de Fondo -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <!-- Globo 1 -->
+        <div class="absolute bottom-[-100px] left-[10%]" style="animation: floatUp 14s linear infinite 0s;">
+            <svg viewBox="0 0 24 32" class="w-12 h-16 text-brandRed opacity-60" fill="currentColor">
+                <path stroke="none" d="M12 2 C7 2 4 6 4 10 C4 14.5 9 19 12 20 C15 19 20 14.5 20 10 C20 6 17 2 12 2 Z"/>
+                <path stroke="none" d="M11 20 h2 l1 2 h-4 z"/>
+                <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
+            </svg>
+        </div>
+        <!-- Globo 2 -->
+        <div class="absolute bottom-[-100px] left-[30%]" style="animation: floatUp 18s linear infinite 3s;">
+            <svg viewBox="0 0 24 32" class="w-10 h-14 text-brandBlue opacity-60" fill="currentColor">
+                <path stroke="none" d="M12 2 C7 2 4 6 4 10 C4 14.5 9 19 12 20 C15 19 20 14.5 20 10 C20 6 17 2 12 2 Z"/>
+                <path stroke="none" d="M11 20 h2 l1 2 h-4 z"/>
+                <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
+            </svg>
+        </div>
+        <!-- Globo 3 -->
+        <div class="absolute bottom-[-100px] left-[55%]" style="animation: floatUp 15s linear infinite 1s;">
+            <svg viewBox="0 0 24 32" class="w-16 h-20 text-brandGreen opacity-60" fill="currentColor">
+                <path stroke="none" d="M12 2 C7 2 4 6 4 10 C4 14.5 9 19 12 20 C15 19 20 14.5 20 10 C20 6 17 2 12 2 Z"/>
+                <path stroke="none" d="M11 20 h2 l1 2 h-4 z"/>
+                <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
+            </svg>
+        </div>
+        <!-- Globo 4 -->
+        <div class="absolute bottom-[-100px] left-[75%]" style="animation: floatUp 17s linear infinite 5s;">
+            <svg viewBox="0 0 24 32" class="w-12 h-16 text-brandYellow opacity-60" fill="currentColor">
+                <path stroke="none" d="M12 2 C7 2 4 6 4 10 C4 14.5 9 19 12 20 C15 19 20 14.5 20 10 C20 6 17 2 12 2 Z"/>
+                <path stroke="none" d="M11 20 h2 l1 2 h-4 z"/>
+                <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
+            </svg>
+        </div>
+        <!-- Globo 5 -->
+        <div class="absolute bottom-[-100px] left-[85%]" style="animation: floatUp 13s linear infinite 2s;">
+            <svg viewBox="0 0 24 32" class="w-14 h-18 text-brandRed opacity-60" fill="currentColor">
+                <path stroke="none" d="M12 2 C7 2 4 6 4 10 C4 14.5 9 19 12 20 C15 19 20 14.5 20 10 C20 6 17 2 12 2 Z"/>
+                <path stroke="none" d="M11 20 h2 l1 2 h-4 z"/>
+                <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
+            </svg>
+        </div>
+        <!-- Globo 6 -->
+        <div class="absolute bottom-[-100px] left-[18%]" style="animation: floatUp 16s linear infinite 6s;">
+            <svg viewBox="0 0 24 32" class="w-16 h-20 text-brandYellow opacity-60" fill="currentColor">
+                <path stroke="none" d="M12 2 C7 2 4 6 4 10 C4 14.5 9 19 12 20 C15 19 20 14.5 20 10 C20 6 17 2 12 2 Z"/>
+                <path stroke="none" d="M11 20 h2 l1 2 h-4 z"/>
+                <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Contenedor Principal de la Tarjeta (Fondo semi-transparente) -->
+    <main class="w-full max-w-md bg-white/85 backdrop-blur-sm z-10 rounded-[2.5rem] p-6 sm:p-8 border-4 border-brandBlue shadow-[8px_8px_0px_0px_#0B358F] relative overflow-hidden">
         
         <!-- Detalle decorativo del arcoíris en la parte superior -->
         <div class="absolute top-0 left-0 w-full h-3 flex">
@@ -82,19 +151,37 @@
 
         <!-- Perfil / Logo -->
         <div class="flex flex-col items-center mt-4 mb-6">
-            <div class="w-40 h-40 sm:w-48 sm:h-48 mb-4 relative">
+            <div class="w-40 h-40 sm:w-48 sm:h-48 mb-4 relative drop-shadow-md">
                 <!-- Se usa la URL proporcionada para el logo -->
                 <img 
                     src="https://www.image2url.com/r2/default/images/1776961997806-1a99717c-a912-4b5f-9d77-3b695d6741ba.jpg" 
                     alt="Logo Nachito Show" 
-                    class="w-full h-full object-contain"
+                    class="w-full h-full object-contain rounded-3xl"
                 >
             </div>
-            <!-- Título Principal -->
-            <h1 class="text-3xl sm:text-4xl font-bold text-brandRed tracking-wide mt-2 drop-shadow-sm text-center">
-                NACHITO SHOW
-            </h1>
-            <p class="text-brandBlue font-medium text-lg mt-1 tracking-wider uppercase">
+            
+            <!-- Título Principal con Globos a los lados -->
+            <div class="flex items-center justify-center gap-2 mt-2">
+                <!-- Globo Izquierdo (Azul) -->
+                <svg viewBox="0 0 24 32" class="w-8 h-10 sm:w-10 sm:h-12 text-brandBlue animate-wiggle origin-bottom" fill="currentColor">
+                    <path stroke="none" d="M12 2 C7 2 4 6 4 10 C4 14.5 9 19 12 20 C15 19 20 14.5 20 10 C20 6 17 2 12 2 Z"/>
+                    <path stroke="none" d="M11 20 h2 l1 2 h-4 z"/>
+                    <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
+                </svg>
+
+                <h1 class="text-3xl sm:text-4xl font-bold text-brandRed tracking-wide drop-shadow-sm text-center">
+                    NACHITO SHOW
+                </h1>
+
+                <!-- Globo Derecho (Verde) -->
+                <svg viewBox="0 0 24 32" class="w-8 h-10 sm:w-10 sm:h-12 text-brandGreen animate-wiggle-reverse origin-bottom" fill="currentColor">
+                    <path stroke="none" d="M12 2 C7 2 4 6 4 10 C4 14.5 9 19 12 20 C15 19 20 14.5 20 10 C20 6 17 2 12 2 Z"/>
+                    <path stroke="none" d="M11 20 h2 l1 2 h-4 z"/>
+                    <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22 Q14 26 12 28 Q10 30 12 32"/>
+                </svg>
+            </div>
+
+            <p class="text-brandBlue font-medium text-lg mt-2 tracking-wider uppercase">
                 Contacto
             </p>
         </div>
@@ -112,7 +199,6 @@
             </a>
 
             <!-- 2. WhatsApp -->
-            <!-- Nota: Asumiendo código de país +57 (Colombia) por la estructura del número -->
             <a href="https://wa.me/573014501072" target="_blank" rel="noopener noreferrer" class="btn-comic shadow-green border-4 border-brandGreen bg-white text-brandGreen font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
                 <div class="flex items-center gap-4 text-xl">
                     <i class="fa-brands fa-whatsapp text-3xl group-hover:scale-110 transition-transform"></i>
@@ -130,7 +216,7 @@
                 <i class="fa-solid fa-chevron-right text-brandRed opacity-50"></i>
             </a>
 
-            <!-- 4. TikTok (Enlace vacío temporal ya que no se especificó URL en el prompt) -->
+            <!-- 4. TikTok -->
             <a href="#" target="_blank" rel="noopener noreferrer" class="btn-comic shadow-black border-4 border-black bg-white text-black font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
                 <div class="flex items-center gap-4 text-xl">
                     <i class="fa-brands fa-tiktok text-2xl group-hover:scale-110 transition-transform"></i>
