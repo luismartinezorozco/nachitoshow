@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NACHITO SHOW</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="https://www.image2url.com/r2/default/images/1776961997806-1a99717c-a912-4b5f-9d77-3b695d6741ba.jpg">
+
+    <!-- Fuentes y Estilos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Configuración de colores de la marca -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandRed: '#F03C31',   /* Rojo de la nariz y letras */
+                        brandBlue: '#0B358F',  /* Azul de las gafas */
+                        brandGreen: '#79C142', /* Verde de la S */
+                        brandYellow: '#FFD100',/* Amarillo del arcoíris */
+                    },
+                    fontFamily: {
+                        'playful': ['Fredoka', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Fredoka', sans-serif;
+            /* Fondo con un patrón sutil de puntos para darle un toque divertido */
+            background-color: #EAF6FF;
+            background-image: radial-gradient(#FFD100 2px, transparent 2px);
+            background-size: 30px 30px;
+        }
+
+        /* Estilo tipo Cómic para los botones */
+        .btn-comic {
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-comic:hover {
+            transform: translate(2px, 2px);
+        }
+        
+        /* Sombras específicas por color */
+        .shadow-blue { box-shadow: 4px 4px 0px 0px #0B358F; }
+        .btn-comic:hover.shadow-blue { box-shadow: 2px 2px 0px 0px #0B358F; }
+
+        .shadow-green { box-shadow: 4px 4px 0px 0px #79C142; }
+        .btn-comic:hover.shadow-green { box-shadow: 2px 2px 0px 0px #79C142; }
+
+        .shadow-red { box-shadow: 4px 4px 0px 0px #F03C31; }
+        .btn-comic:hover.shadow-red { box-shadow: 2px 2px 0px 0px #F03C31; }
+
+        .shadow-black { box-shadow: 4px 4px 0px 0px #111111; }
+        .btn-comic:hover.shadow-black { box-shadow: 2px 2px 0px 0px #111111; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Contenedor Principal de la Tarjeta -->
+    <main class="w-full max-w-md bg-white rounded-[2.5rem] p-6 sm:p-8 border-4 border-brandBlue shadow-[8px_8px_0px_0px_#0B358F] relative overflow-hidden">
+        
+        <!-- Detalle decorativo del arcoíris en la parte superior -->
+        <div class="absolute top-0 left-0 w-full h-3 flex">
+            <div class="h-full flex-1 bg-[#F03C31]"></div>
+            <div class="h-full flex-1 bg-[#F16323]"></div>
+            <div class="h-full flex-1 bg-[#FFD100]"></div>
+            <div class="h-full flex-1 bg-[#79C142]"></div>
+            <div class="h-full flex-1 bg-[#0B358F]"></div>
+            <div class="h-full flex-1 bg-[#572C8B]"></div>
+        </div>
+
+        <!-- Perfil / Logo -->
+        <div class="flex flex-col items-center mt-4 mb-6">
+            <div class="w-40 h-40 sm:w-48 sm:h-48 mb-4 relative">
+                <!-- Se usa la URL proporcionada para el logo -->
+                <img 
+                    src="https://www.image2url.com/r2/default/images/1776961997806-1a99717c-a912-4b5f-9d77-3b695d6741ba.jpg" 
+                    alt="Logo Nachito Show" 
+                    class="w-full h-full object-contain"
+                >
+            </div>
+            <!-- Título Principal -->
+            <h1 class="text-3xl sm:text-4xl font-bold text-brandRed tracking-wide mt-2 drop-shadow-sm text-center">
+                NACHITO SHOW
+            </h1>
+            <p class="text-brandBlue font-medium text-lg mt-1 tracking-wider uppercase">
+                Contacto
+            </p>
+        </div>
+
+        <!-- Enlaces / Redes Sociales -->
+        <div class="flex flex-col gap-4 w-full">
+            
+            <!-- 1. Teléfono -->
+            <a href="tel:3014501072" class="btn-comic shadow-blue border-4 border-brandBlue bg-white text-brandBlue font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
+                <div class="flex items-center gap-4 text-xl">
+                    <i class="fa-solid fa-phone text-2xl group-hover:scale-110 transition-transform"></i>
+                    <span>Teléfono</span>
+                </div>
+                <i class="fa-solid fa-chevron-right text-brandBlue opacity-50"></i>
+            </a>
+
+            <!-- 2. WhatsApp -->
+            <!-- Nota: Asumiendo código de país +57 (Colombia) por la estructura del número -->
+            <a href="https://wa.me/573014501072" target="_blank" rel="noopener noreferrer" class="btn-comic shadow-green border-4 border-brandGreen bg-white text-brandGreen font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
+                <div class="flex items-center gap-4 text-xl">
+                    <i class="fa-brands fa-whatsapp text-3xl group-hover:scale-110 transition-transform"></i>
+                    <span>WhatsApp</span>
+                </div>
+                <i class="fa-solid fa-chevron-right text-brandGreen opacity-50"></i>
+            </a>
+
+            <!-- 3. Instagram -->
+            <a href="https://www.instagram.com/nachitoshow?utm_source=qr&igsh=NmJsMHFzeWdndjkz" target="_blank" rel="noopener noreferrer" class="btn-comic shadow-red border-4 border-brandRed bg-white text-brandRed font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
+                <div class="flex items-center gap-4 text-xl">
+                    <i class="fa-brands fa-instagram text-3xl group-hover:scale-110 transition-transform"></i>
+                    <span>Instagram</span>
+                </div>
+                <i class="fa-solid fa-chevron-right text-brandRed opacity-50"></i>
+            </a>
+
+            <!-- 4. TikTok (Enlace vacío temporal ya que no se especificó URL en el prompt) -->
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-comic shadow-black border-4 border-black bg-white text-black font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
+                <div class="flex items-center gap-4 text-xl">
+                    <i class="fa-brands fa-tiktok text-2xl group-hover:scale-110 transition-transform"></i>
+                    <span>TikTok</span>
+                </div>
+                <i class="fa-solid fa-chevron-right text-black opacity-50"></i>
+            </a>
+
+            <!-- 5. Facebook -->
+            <a href="https://www.facebook.com/share/1KAjvTHJjy/" target="_blank" rel="noopener noreferrer" class="btn-comic shadow-blue border-4 border-[#1877F2] bg-white text-[#1877F2] font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
+                <div class="flex items-center gap-4 text-xl">
+                    <i class="fa-brands fa-facebook text-3xl group-hover:scale-110 transition-transform"></i>
+                    <span>Facebook</span>
+                </div>
+                <i class="fa-solid fa-chevron-right text-[#1877F2] opacity-50"></i>
+            </a>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
