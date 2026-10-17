@@ -17,17 +17,19 @@
 
     <!-- Configuración de colores de la marca -->
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brandRed: '#F03C31',   /* Rojo de la nariz y letras */
-                        brandBlue: '#0B358F',  /* Azul de las gafas */
-                        brandGreen: '#79C142', /* Verde de la S */
-                        brandYellow: '#FFD100',/* Amarillo del arcoíris */
-                    },
-                    fontFamily: {
-                        'playful': ['Fredoka', 'sans-serif'],
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            brandRed: '#F03C31',   /* Rojo de la nariz y letras */
+                            brandBlue: '#0B358F',  /* Azul de las gafas */
+                            brandGreen: '#79C142', /* Verde de la S */
+                            brandYellow: '#FFD100',/* Amarillo del arcoíris */
+                        },
+                        fontFamily: {
+                            'playful': ['Fredoka', 'sans-serif'],
+                        }
                     }
                 }
             }
@@ -35,21 +37,152 @@
     </script>
 
     <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         body {
+            margin: 0;
             font-family: 'Fredoka', sans-serif;
             /* Fondo con un patrón sutil de puntos para darle un toque divertido */
             background-color: #EAF6FF;
             background-image: radial-gradient(#FFD100 2px, transparent 2px);
             background-size: 30px 30px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Estilos nativos de respaldo (evitan que la página se rompa si falla el CDN en algún celular) */
+        .balloons-bg {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .balloon-item {
+            position: absolute;
+            bottom: -100px;
+            opacity: 0.6;
+        }
+
+        .vcard-card {
+            width: 100%;
+            max-width: 28rem;
+            background-color: rgba(255, 255, 255, 0.88);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+            z-index: 10;
+            border-radius: 2.5rem;
+            padding: 1.75rem 1.5rem;
+            border: 4px solid #0B358F;
+            box-shadow: 8px 8px 0px 0px #0B358F;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rainbow-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0.75rem;
+            display: flex;
+        }
+        .rainbow-bar > div {
+            height: 100%;
+            flex: 1;
+        }
+
+        .logo-container {
+            width: 11rem;
+            height: 11rem;
+            margin: 0 auto 1rem auto;
+            position: relative;
+        }
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 1.5rem;
+            display: block;
+        }
+
+        .title-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .main-title {
+            font-size: 2rem;
+            line-height: 1.1;
+            font-weight: 700;
+            color: #F03C31;
+            letter-spacing: 0.025em;
+            text-align: center;
+            margin: 0;
+        }
+
+        .subtitle {
+            color: #0B358F;
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin: 0.5rem 0 0 0;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .links-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            margin-top: 1.5rem;
         }
 
         /* Estilo tipo Cómic para los botones */
         .btn-comic {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #ffffff;
+            font-weight: 700;
+            border-radius: 1rem;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-width: 4px;
+            border-style: solid;
             transition: all 0.2s ease-in-out;
         }
         .btn-comic:hover {
             transform: translate(2px, 2px);
         }
+        .btn-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.25rem;
+        }
+
+        /* Colores de botones de respaldo */
+        .theme-blue { color: #0B358F; border-color: #0B358F; }
+        .theme-green { color: #79C142; border-color: #79C142; }
+        .theme-red { color: #F03C31; border-color: #F03C31; }
+        .theme-black { color: #111111; border-color: #111111; }
+        .theme-fb { color: #1877F2; border-color: #1877F2; }
         
         /* Sombras específicas por color */
         .shadow-blue { box-shadow: 4px 4px 0px 0px #0B358F; }
@@ -76,82 +209,84 @@
         }
         .animate-wiggle {
             animation: wiggle 3s ease-in-out infinite;
+            transform-origin: bottom center;
         }
         .animate-wiggle-reverse {
             animation: wiggle 3s ease-in-out infinite reverse;
+            transform-origin: bottom center;
         }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4 relative">
 
     <!-- Globos Flotantes de Fondo -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="balloons-bg fixed inset-0 overflow-hidden pointer-events-none z-0">
         <!-- Globo 1 -->
-        <div class="absolute bottom-[-100px] left-[10%]" style="animation: floatUp 14s linear infinite 0s;">
-            <svg viewBox="0 0 24 32" class="w-12 h-16 text-brandRed opacity-60" fill="currentColor">
+        <div class="balloon-item" style="left: 10%; animation: floatUp 14s linear infinite 0s;">
+            <svg viewBox="0 0 24 32" width="48" height="64" class="w-12 h-16 text-brandRed" fill="#F03C31" style="color: #F03C31;">
                 <path stroke="none" d="M12 2 C7 2 4 6 4 10 C4 14.5 9 19 12 20 C15 19 20 14.5 20 10 C20 6 17 2 12 2 Z"/>
                 <path stroke="none" d="M11 20 h2 l1 2 h-4 z"/>
-                <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
+                <path fill="none" stroke="#F03C31" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
             </svg>
         </div>
         <!-- Globo 2 -->
-        <div class="absolute bottom-[-100px] left-[30%]" style="animation: floatUp 18s linear infinite 3s;">
-            <svg viewBox="0 0 24 32" class="w-10 h-14 text-brandBlue opacity-60" fill="currentColor">
+        <div class="balloon-item" style="left: 30%; animation: floatUp 18s linear infinite 3s;">
+            <svg viewBox="0 0 24 32" width="40" height="56" class="w-10 h-14 text-brandBlue" fill="#0B358F" style="color: #0B358F;">
                 <path stroke="none" d="M12 2 C7 2 4 6 4 10 C4 14.5 9 19 12 20 C15 19 20 14.5 20 10 C20 6 17 2 12 2 Z"/>
                 <path stroke="none" d="M11 20 h2 l1 2 h-4 z"/>
-                <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
+                <path fill="none" stroke="#0B358F" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
             </svg>
         </div>
         <!-- Globo 3 -->
-        <div class="absolute bottom-[-100px] left-[55%]" style="animation: floatUp 15s linear infinite 1s;">
-            <svg viewBox="0 0 24 32" class="w-16 h-20 text-brandGreen opacity-60" fill="currentColor">
+        <div class="balloon-item" style="left: 55%; animation: floatUp 15s linear infinite 1s;">
+            <svg viewBox="0 0 24 32" width="64" height="80" class="w-16 h-20 text-brandGreen" fill="#79C142" style="color: #79C142;">
                 <path stroke="none" d="M12 2 C7 2 4 6 4 10 C4 14.5 9 19 12 20 C15 19 20 14.5 20 10 C20 6 17 2 12 2 Z"/>
                 <path stroke="none" d="M11 20 h2 l1 2 h-4 z"/>
-                <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
+                <path fill="none" stroke="#79C142" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
             </svg>
         </div>
         <!-- Globo 4 -->
-        <div class="absolute bottom-[-100px] left-[75%]" style="animation: floatUp 17s linear infinite 5s;">
-            <svg viewBox="0 0 24 32" class="w-12 h-16 text-brandYellow opacity-60" fill="currentColor">
+        <div class="balloon-item" style="left: 75%; animation: floatUp 17s linear infinite 5s;">
+            <svg viewBox="0 0 24 32" width="48" height="64" class="w-12 h-16 text-brandYellow" fill="#FFD100" style="color: #FFD100;">
                 <path stroke="none" d="M12 2 C7 2 4 6 4 10 C4 14.5 9 19 12 20 C15 19 20 14.5 20 10 C20 6 17 2 12 2 Z"/>
                 <path stroke="none" d="M11 20 h2 l1 2 h-4 z"/>
-                <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
+                <path fill="none" stroke="#FFD100" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
             </svg>
         </div>
         <!-- Globo 5 -->
-        <div class="absolute bottom-[-100px] left-[85%]" style="animation: floatUp 13s linear infinite 2s;">
-            <svg viewBox="0 0 24 32" class="w-14 h-18 text-brandRed opacity-60" fill="currentColor">
+        <div class="balloon-item" style="left: 85%; animation: floatUp 13s linear infinite 2s;">
+            <svg viewBox="0 0 24 32" width="56" height="72" class="w-14 h-18 text-brandRed" fill="#F03C31" style="color: #F03C31;">
                 <path stroke="none" d="M12 2 C7 2 4 6 4 10 C4 14.5 9 19 12 20 C15 19 20 14.5 20 10 C20 6 17 2 12 2 Z"/>
                 <path stroke="none" d="M11 20 h2 l1 2 h-4 z"/>
-                <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
+                <path fill="none" stroke="#F03C31" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
             </svg>
         </div>
         <!-- Globo 6 -->
-        <div class="absolute bottom-[-100px] left-[18%]" style="animation: floatUp 16s linear infinite 6s;">
-            <svg viewBox="0 0 24 32" class="w-16 h-20 text-brandYellow opacity-60" fill="currentColor">
+        <div class="balloon-item" style="left: 18%; animation: floatUp 16s linear infinite 6s;">
+            <svg viewBox="0 0 24 32" width="64" height="80" class="w-16 h-20 text-brandYellow" fill="#FFD100" style="color: #FFD100;">
                 <path stroke="none" d="M12 2 C7 2 4 6 4 10 C4 14.5 9 19 12 20 C15 19 20 14.5 20 10 C20 6 17 2 12 2 Z"/>
                 <path stroke="none" d="M11 20 h2 l1 2 h-4 z"/>
-                <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
+                <path fill="none" stroke="#FFD100" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
             </svg>
         </div>
     </div>
 
     <!-- Contenedor Principal de la Tarjeta (Fondo semi-transparente) -->
-    <main class="w-full max-w-md bg-white/85 backdrop-blur-sm z-10 rounded-[2.5rem] p-6 sm:p-8 border-4 border-brandBlue shadow-[8px_8px_0px_0px_#0B358F] relative overflow-hidden">
+    <main class="vcard-card w-full max-w-md bg-white/85 backdrop-blur-sm z-10 rounded-[2.5rem] p-6 sm:p-8 border-4 border-brandBlue shadow-[8px_8px_0px_0px_#0B358F] relative overflow-hidden">
         
         <!-- Detalle decorativo del arcoíris en la parte superior -->
-        <div class="absolute top-0 left-0 w-full h-3 flex">
-            <div class="h-full flex-1 bg-[#F03C31]"></div>
-            <div class="h-full flex-1 bg-[#F16323]"></div>
-            <div class="h-full flex-1 bg-[#FFD100]"></div>
-            <div class="h-full flex-1 bg-[#79C142]"></div>
-            <div class="h-full flex-1 bg-[#0B358F]"></div>
-            <div class="h-full flex-1 bg-[#572C8B]"></div>
+        <div class="rainbow-bar absolute top-0 left-0 w-full h-3 flex">
+            <div style="background-color: #F03C31;"></div>
+            <div style="background-color: #F16323;"></div>
+            <div style="background-color: #FFD100;"></div>
+            <div style="background-color: #79C142;"></div>
+            <div style="background-color: #0B358F;"></div>
+            <div style="background-color: #572C8B;"></div>
         </div>
 
         <!-- Perfil / Logo -->
         <div class="flex flex-col items-center mt-4 mb-6">
-            <div class="w-40 h-40 sm:w-48 sm:h-48 mb-4 relative drop-shadow-md">
+            <div class="logo-container w-40 h-40 sm:w-48 sm:h-48 mb-4 relative drop-shadow-md">
                 <!-- Se usa la URL proporcionada para el logo -->
                 <img 
                     src="https://www.image2url.com/r2/default/images/1776961997806-1a99717c-a912-4b5f-9d77-3b695d6741ba.jpg" 
@@ -161,37 +296,37 @@
             </div>
             
             <!-- Título Principal con Globos a los lados -->
-            <div class="flex items-center justify-center gap-2 mt-2">
+            <div class="title-row flex items-center justify-center gap-2 mt-2">
                 <!-- Globo Izquierdo (Azul) -->
-                <svg viewBox="0 0 24 32" class="w-8 h-10 sm:w-10 sm:h-12 text-brandBlue animate-wiggle origin-bottom" fill="currentColor">
+                <svg viewBox="0 0 24 32" width="36" height="44" class="w-8 h-10 sm:w-10 sm:h-12 text-brandBlue animate-wiggle origin-bottom" fill="#0B358F" style="color: #0B358F; flex-shrink: 0;">
                     <path stroke="none" d="M12 2 C7 2 4 6 4 10 C4 14.5 9 19 12 20 C15 19 20 14.5 20 10 C20 6 17 2 12 2 Z"/>
                     <path stroke="none" d="M11 20 h2 l1 2 h-4 z"/>
-                    <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
+                    <path fill="none" stroke="#0B358F" stroke-width="1.5" d="M12 22 Q10 26 12 28 Q14 30 12 32"/>
                 </svg>
 
-                <h1 class="text-3xl sm:text-4xl font-bold text-brandRed tracking-wide drop-shadow-sm text-center">
+                <h1 class="main-title text-3xl sm:text-4xl font-bold text-brandRed tracking-wide drop-shadow-sm text-center">
                     NACHITO SHOW
                 </h1>
 
                 <!-- Globo Derecho (Verde) -->
-                <svg viewBox="0 0 24 32" class="w-8 h-10 sm:w-10 sm:h-12 text-brandGreen animate-wiggle-reverse origin-bottom" fill="currentColor">
+                <svg viewBox="0 0 24 32" width="36" height="44" class="w-8 h-10 sm:w-10 sm:h-12 text-brandGreen animate-wiggle-reverse origin-bottom" fill="#79C142" style="color: #79C142; flex-shrink: 0;">
                     <path stroke="none" d="M12 2 C7 2 4 6 4 10 C4 14.5 9 19 12 20 C15 19 20 14.5 20 10 C20 6 17 2 12 2 Z"/>
                     <path stroke="none" d="M11 20 h2 l1 2 h-4 z"/>
-                    <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 22 Q14 26 12 28 Q10 30 12 32"/>
+                    <path fill="none" stroke="#79C142" stroke-width="1.5" d="M12 22 Q14 26 12 28 Q10 30 12 32"/>
                 </svg>
             </div>
 
-            <p class="text-brandBlue font-medium text-lg mt-2 tracking-wider uppercase">
+            <p class="subtitle text-brandBlue font-medium text-lg mt-2 tracking-wider uppercase">
                 Contacto
             </p>
         </div>
 
         <!-- Enlaces / Redes Sociales -->
-        <div class="flex flex-col gap-4 w-full">
+        <div class="links-list flex flex-col gap-4 w-full">
             
             <!-- 1. Teléfono -->
-            <a href="tel:3014501072" class="btn-comic shadow-blue border-4 border-brandBlue bg-white text-brandBlue font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
-                <div class="flex items-center gap-4 text-xl">
+            <a href="tel:3014501072" class="btn-comic theme-blue shadow-blue border-4 border-brandBlue bg-white text-brandBlue font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
+                <div class="btn-content flex items-center gap-4 text-xl">
                     <i class="fa-solid fa-phone text-2xl group-hover:scale-110 transition-transform"></i>
                     <span>Teléfono</span>
                 </div>
@@ -199,8 +334,8 @@
             </a>
 
             <!-- 2. WhatsApp -->
-            <a href="https://wa.me/573014501072" target="_blank" rel="noopener noreferrer" class="btn-comic shadow-green border-4 border-brandGreen bg-white text-brandGreen font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
-                <div class="flex items-center gap-4 text-xl">
+            <a href="https://wa.me/573014501072" target="_blank" rel="noopener noreferrer" class="btn-comic theme-green shadow-green border-4 border-brandGreen bg-white text-brandGreen font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
+                <div class="btn-content flex items-center gap-4 text-xl">
                     <i class="fa-brands fa-whatsapp text-3xl group-hover:scale-110 transition-transform"></i>
                     <span>WhatsApp</span>
                 </div>
@@ -208,8 +343,8 @@
             </a>
 
             <!-- 3. Instagram -->
-            <a href="https://www.instagram.com/nachitoshow?utm_source=qr&igsh=NmJsMHFzeWdndjkz" target="_blank" rel="noopener noreferrer" class="btn-comic shadow-red border-4 border-brandRed bg-white text-brandRed font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
-                <div class="flex items-center gap-4 text-xl">
+            <a href="https://www.instagram.com/nachitoshow?utm_source=qr&igsh=NmJsMHFzeWdndjkz" target="_blank" rel="noopener noreferrer" class="btn-comic theme-red shadow-red border-4 border-brandRed bg-white text-brandRed font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
+                <div class="btn-content flex items-center gap-4 text-xl">
                     <i class="fa-brands fa-instagram text-3xl group-hover:scale-110 transition-transform"></i>
                     <span>Instagram</span>
                 </div>
@@ -217,8 +352,8 @@
             </a>
 
             <!-- 4. TikTok -->
-            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-comic shadow-black border-4 border-black bg-white text-black font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
-                <div class="flex items-center gap-4 text-xl">
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-comic theme-black shadow-black border-4 border-black bg-white text-black font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
+                <div class="btn-content flex items-center gap-4 text-xl">
                     <i class="fa-brands fa-tiktok text-2xl group-hover:scale-110 transition-transform"></i>
                     <span>TikTok</span>
                 </div>
@@ -226,8 +361,8 @@
             </a>
 
             <!-- 5. Facebook -->
-            <a href="https://www.facebook.com/share/1KAjvTHJjy/" target="_blank" rel="noopener noreferrer" class="btn-comic shadow-blue border-4 border-[#1877F2] bg-white text-[#1877F2] font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
-                <div class="flex items-center gap-4 text-xl">
+            <a href="https://www.facebook.com/share/1KAjvTHJjy/" target="_blank" rel="noopener noreferrer" class="btn-comic theme-fb shadow-blue border-4 border-[#1877F2] bg-white text-[#1877F2] font-bold rounded-2xl py-3 px-6 flex items-center justify-between group">
+                <div class="btn-content flex items-center gap-4 text-xl">
                     <i class="fa-brands fa-facebook text-3xl group-hover:scale-110 transition-transform"></i>
                     <span>Facebook</span>
                 </div>
